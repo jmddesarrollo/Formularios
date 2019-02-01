@@ -1,0 +1,127 @@
+<h4>Formularios <small>data</small></h4>
+
+<hr>
+<form class="w3-container w3-panel" [formGroup]="forma" (ngSubmit)="guardarCambios()">
+    <div>
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l2 m2 s12">Nombre</label>
+            <div class=" w3-col l8 m8 s12">
+                <input class="w3-input w3-animate-input" type="text" name="nombre" formControlName="nombre" placeholder="Nombre">
+                <!-- <span *ngIf="!forma.controls['nombre'].valid">Este campo no es válido.</span> -->
+                <!-- <span *ngIf="!forma.get['nombrecompleto.nombre'].valid">Este campo no es válido.</span> -->
+                <span *ngIf="forma.controls['nombre'].errors?.required && forma.controls['nombre'].touched">Este campo es requerido.</span>
+                <span *ngIf="(forma.controls['nombre'].errors?.minlength || forma.controls['nombre'].errors?.maxlength) && forma.controls['nombre'].touched">El nombre necesita estar entre 5 y 100 caracteres.</span>
+            </div>
+        </div>
+
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l2 m2 s12">Apellido</label>
+            <div class="w3-col l8 m8 s12">
+                <input class="w3-input" type="text" name="apellidos" formControlName="apellidos" placeholder="Apellidos">
+                <span *ngIf="forma.controls['apellidos'].errors?.required && forma.controls['apellidos'].touched">Este campo es requerido.</span>
+                <span *ngIf="(forma.controls['apellidos'].errors?.minlength || forma.controls['apellidos'].errors?.maxlength) && forma.controls['apellidos'].touched">Los apellidos necesitan estar entre 5 y 100 caracteres.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Correo</label>
+        <div class="w3-col l8 m8 s12">
+            <input class="w3-input" type="email" name="email" formControlName="email" placeholder="Correo electrónico">
+            <span *ngIf="forma.controls['email'].errors?.required  && forma.controls['email'].touched">Este campo es requerido.</span>
+            <span *ngIf="(forma.controls['email'].errors?.minlength || forma.controls['email'].errors?.maxlength) && forma.controls['email'].touched">El email necesita estar entre 5 y 100 caracteres.</span>
+            <span *ngIf="forma.controls['email'].errors?.pattern && forma.controls['email'].touched">El email no tiene un formato correcto.</span>
+        </div>
+    </div>
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Usuario</label>
+        <div class="w3-col l8 m8 s12">
+            <input class="w3-input" type="text" name="username" formControlName="username" placeholder="Nombre de usuario">
+            <span *ngIf="forma.controls['username'].errors?.required  && forma.controls['username'].touched">Este campo es requerido.</span>
+            <span *ngIf="forma.controls['username'].errors?.existe && forma.controls['username'].touched">El nombre de usuario no está libre.</span>
+            <span *ngIf="forma.status == 'PENDING' && forma.controls['username'].touched">Comprobando...</span>
+        </div>
+    </div>
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Contraseña</label>
+        <div class="w3-col l8 m8 s12">
+            <input class="w3-input" type="password" name="password1" formControlName="password1">
+            <!-- <span *ngIf="forma.controls['email'].errors?.required  && forma.controls['email'].touched">Este campo es requerido.</span>
+            <span *ngIf="(forma.controls['email'].errors?.minlength || forma.controls['email'].errors?.maxlength) && forma.controls['email'].touched">El email necesita estar entre 5 y 100 caracteres.</span>
+            <span *ngIf="forma.controls['email'].errors?.pattern && forma.controls['email'].touched">El email no tiene un formato correcto.</span> -->
+        </div>
+    </div>
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Rep. Contraseña</label>
+        <div class="w3-col l8 m8 s12">
+            <input class="w3-input" type="password" name="password2" formControlName="password2">
+            <!-- <span *ngIf="forma.controls['email'].errors?.required  && forma.controls['email'].touched">Este campo es requerido.</span>
+            <span *ngIf="(forma.controls['email'].errors?.minlength || forma.controls['email'].errors?.maxlength) && forma.controls['email'].touched">El email necesita estar entre 5 y 100 caracteres.</span>
+            <span *ngIf="forma.controls['email'].errors?.pattern && forma.controls['email'].touched">El email no tiene un formato correcto.</span> -->
+        </div>
+    </div>
+
+
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Pasatiempos</label>
+        <div class="w3-col l8 m8 s12" formArrayName="pasatiempos">
+            <input *ngFor="let pasatiempo of forma.controls['pasatiempos'].controls; let i = index" class="w3-input" type="text" name="pasatiempos" [formControlName]="i">
+            <!-- <span *ngIf="forma.controls['email'].errors?.required  && forma.controls['email'].touched">Este campo es requerido.</span>
+            <span *ngIf="(forma.controls['email'].errors?.minlength || forma.controls['email'].errors?.maxlength) && forma.controls['email'].touched">El email necesita estar entre 5 y 100 caracteres.</span>
+            <span *ngIf="forma.controls['email'].errors?.pattern && forma.controls['email'].touched">El email no tiene un formato correcto.</span> -->
+
+        </div>
+        <input type="button" class="w3-button w3-blue" (click)="agregarPasatiempo()" value="Nuevo" [disabled]="!forma.controls['pasatiempos'].valid" />
+    </div>
+
+    <!-- <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Pais</label>
+        <div class="w3-col l8 m8 s12">
+            <select [(ngModel)]="usuario.pais" name="pais" class="w3-select">
+                <option value="">Selecciones un pais</option>
+                <option *ngFor="let pais of paises" [value]="pais.codigo">{{pais.nombre}}</option>
+            </select>
+        </div>
+    </div> -->
+    <!-- 
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Sexo</label>
+        <div class="w3-col l8 m8 s12">
+            <label *ngFor="let sex of sexos">
+                <input class="w3-radio" type="radio" name="sexo" [(ngModel)]="usuario.sexo" [value]="sex" >
+                <label class="w3-margin-right">{{sex}}</label>
+            </label>
+        </div>
+    </div> -->
+
+    <!-- <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Acepta</label>
+        <div class="w3-col l8 m8 s12">
+            <input class="w3-check" type="checkbox" [(ngModel)]="usuario.acepta" name="acepta" checked="checked" required>
+            <label>Acepta las condiciones.</label>
+        </div>
+    </div> -->
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">&nbsp;</label>
+        <div class="w3-col l8 m8 s12">
+            <!-- <button type="submit" class="w3-button w3-blue w3-round-medium" [disabled]="!forma.valid"> -->
+            <button type="submit" class="w3-button w3-blue w3-round-medium" [disabled]="!forma.valid">
+        Guardar
+      </button>
+        </div>
+    </div>
+
+</form>
+
+<div class="w3-container">
+    <pre>
+<label>Forma.valid:  {{ forma.valid }}</label>
+<label>Forma.status: {{ forma.status }}</label>
+<label>Usuario:      {{ usuario | json }}</label>
+    </pre>
+</div>

@@ -1,0 +1,81 @@
+<h4>Formularios <small>template</small></h4>
+
+<hr>
+<form class="w3-container w3-panel" #forma="ngForm" (ngSubmit)="guardar(forma)" novalidate="">
+    <div>
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l2 m2 s12">Nombre</label>
+            <div class=" w3-col l8 m8 s12">
+                <input class="w3-input w3-animate-input" type="text" name="nombre" #nombre="ngModel" [(ngModel)]="usuario.nombre" required minlength="5" maxlength="100" placeholder="Nombre">
+                <span *ngIf="nombre.errors?.required">Este campo es requerido.</span>
+                <span *ngIf="nombre.errors?.minlength || nombre.errors?.maxlength">El nombre necesita estar entre 5 y 100 caracteres.</span>
+            </div>
+        </div>
+
+        <div class="w3-row w3-margin-bottom">
+            <label class="w3-col l2 m2 s12">Apellido</label>
+            <div class="w3-col l8 m8 s12">
+                <input class="w3-input" type="text" name="apellidos" #apellidos="ngModel" [(ngModel)]="usuario.apellidos" required minlength="5" maxlength="100" placeholder="Apellido">
+                <span *ngIf="apellidos.errors?.required">Este campo es requerido.</span>
+                <span *ngIf="apellidos.errors?.minlength || email.errors?.maxlength">Los apellidos necesitan estar entre 5 y 100 caracteres.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Correo</label>
+        <div class="w3-col l8 m8 s12">
+            <input class="w3-input" type="email" name="email" #email="ngModel" [(ngModel)]="usuario.email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required placeholder="Correo electrónico">
+            <span *ngIf="email.errors?.required">Este campo es requerido.</span>
+            <span *ngIf="email.errors?.minlength || email.errors?.maxlength">El email necesita estar entre 5 y 100 caracteres.</span>
+            <span *ngIf="email.errors?.pattern">El email no tiene un formato correcto.</span>
+        </div>
+    </div>
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Pais</label>
+        <div class="w3-col l8 m8 s12">
+            <select [(ngModel)]="usuario.pais" name="pais" class="w3-select">
+                <option value="">Selecciones un pais</option>
+                <option *ngFor="let pais of paises" [value]="pais.codigo">{{pais.nombre}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Sexo</label>
+        <div class="w3-col l8 m8 s12">
+            <label *ngFor="let sex of sexos">
+                <input class="w3-radio" type="radio" name="sexo" [(ngModel)]="usuario.sexo" [value]="sex" >
+                <label class="w3-margin-right">{{sex}}</label>
+            </label>
+
+            <!-- <input class="w3-radio" type="radio" name="sexo" [(ngModel)]="usuario.sexo" value="mujer">
+            <label>Mujer</label> -->
+        </div>
+    </div>
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">Acepta</label>
+        <div class="w3-col l8 m8 s12">
+            <input class="w3-check" type="checkbox" [(ngModel)]="usuario.acepta" name="acepta" checked="checked" required>
+            <label>Acepta las condiciones.</label>
+        </div>
+    </div>
+
+    <div class="w3-row w3-margin-bottom">
+        <label class="w3-col l2 m2 s12">&nbsp;</label>
+        <div class="w3-col l8 m8 s12">
+            <button type="submit" class="w3-button w3-blue w3-round-medium" [disabled]="!forma.valid">
+        Guardar
+      </button>
+        </div>
+    </div>
+
+</form>
+
+<div class="w3-container">
+    <pre>
+        <label>{{ usuario | json }}</label>
+    </pre>
+</div>

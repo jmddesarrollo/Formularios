@@ -14,14 +14,14 @@ export class DataComponent implements OnInit {
   //   email: 'jmddesarrolo@gmail.com'
   // };
 
-  public usuario: any;
+  public usuario: Object;
 
   constructor() {
     this.usuario = {
       nombre: 'Javier',
       apellidos: 'Molero',
       email: 'jmddesarrolo@gmail.com',
-      pasatiempos: ['correr'],
+      pasatiempos: ['Correr', 'Nadar', 'Spinning', 'Senderismo'],
       username: '',
       password1: '',
       password2: ''
@@ -35,14 +35,18 @@ export class DataComponent implements OnInit {
       // })
 
       'nombre': new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
-      'apellidos': new FormControl('', [Validators.required, this.noTengo]),
-      'email': new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
+      'apellidos': new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(100), this.noTengo]),
+      'email': new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(100),
+                                    Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
       'pasatiempos': new FormArray([
-        new FormControl('Correr', [Validators.required])
+        new FormControl('Correr', [Validators.required]),
+        new FormControl('Nadar', [Validators.required]),
+        new FormControl('Spinning', [Validators.required]),
+        new FormControl('Senderismo', [Validators.required])
       ]),
       // Un FormControl puede aceptar una función en la parte de las validaciones
       'username': new FormControl('', [Validators.required], [this.existeUsuario]),
-      'password1': new FormControl('', [Validators.required]),
+      'password1': new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
       'password2': new FormControl()
     });
     // forma.valid  => Indicador de formulario válido.
@@ -52,12 +56,12 @@ export class DataComponent implements OnInit {
     // Dentro de la función no reconoce a 'this', por tanto mediante el bind ('enlazar') se puede pasar a la función el elemento.
     this.forma.controls['password2'].setValidators([Validators.required, this.noIgual.bind(this.forma)]);
 
-    // Objeto al tener misma estructura que el 'forma' (formulario)
+    // Insertar datos del Objeto en el formulario ('forma')
     this.forma.setValue(this.usuario);
 
     // Crear un observable y suscribirme a cualquier cambio que se realice en el formulario.
     this.forma.valueChanges.subscribe( data => {
-      console.log(data);
+      // console.log(data);
     });
 
     // Crear un observable y subscribirme a cualquier cambio en un determinado elemento del formulario.

@@ -35,7 +35,7 @@
     <div class="w3-row w3-margin-bottom">
         <label class="w3-col l2 m2 s12">Pais</label>
         <div class="w3-col l8 m8 s12">
-            <select [(ngModel)]="usuario.pais" name="pais" class="w3-select">
+            <select [(ngModel)]="usuario.pais" name="pais" class="w3-select" required>
                 <option value="">Selecciones un pais</option>
                 <option *ngFor="let pais of paises" [value]="pais.codigo">{{pais.nombre}}</option>
             </select>
